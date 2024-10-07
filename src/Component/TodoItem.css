@@ -1,0 +1,50 @@
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 10px;
+    margin: 10px auto; 
+    border-bottom: 1px solid #ccc;
+    max-width: 600px; 
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+
+  .todo-item.completed span {
+    text-decoration: line-through;
+    color: gray;
+  }
+  
+  button {
+    padding: 8px 12px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+  }
+  
+
+  button.complete {
+    background-color: green;
+  }
+  
+ 
+  button.incomplete {
+    background-color: red;
+  }
+  
+  button.remove {
+    background-color: rgb(223, 130, 223);
+  }
+
+  button.edit {
+    background-color: blue; 
+    color: white; 
+  }
+  button.update {
+    background-color: #007bff; 
+    color: white;
+  }

@@ -1,0 +1,33 @@
+
+button {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  button.filter-all {
+    background-color: green ;
+    color: white;
+  }
+
+  button.add-task {
+    background-color: #007bff; 
+    color: white;
+  }
+  
+
+  button.filter-complete {
+    background-color: rgb(12, 106, 143); 
+    color: white;
+  }
+  
+
+  button.filter-incomplete {
+    background-color: rgb(250, 250, 11); 
+  }
+  
