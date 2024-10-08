@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './AddTask.css';
@@ -11,7 +10,6 @@ const AddTask = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Check if there's a task to edit
     if (location.state) {
       const { name, priority, dueDate } = location.state;
       setTaskName(name);
@@ -24,7 +22,7 @@ const AddTask = () => {
     e.preventDefault();
 
     const newTask = {
-      id: location.state ? location.state.id : Date.now(), // Use existing ID for edit
+      id: location.state ? location.state.id : Date.now(), 
       name: taskName,
       priority,
       completed: false,
@@ -34,13 +32,11 @@ const AddTask = () => {
     const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
     
     if (location.state) {
-      // Update the existing task
       const updatedTasks = storedTasks.map(task => 
         task.id === location.state.id ? newTask : task
       );
       localStorage.setItem('tasks', JSON.stringify(updatedTasks));
     } else {
-      // Add a new task
       localStorage.setItem('tasks', JSON.stringify([...storedTasks, newTask]));
     }
 

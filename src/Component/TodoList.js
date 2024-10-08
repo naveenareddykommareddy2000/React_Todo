@@ -30,20 +30,19 @@ const TodoList = () => {
     localStorage.setItem('tasks', JSON.stringify(updatedTasks));
   };
 
-  // Filter tasks based on the selected filter
   const filteredTasks = tasks.filter(task => {
     if (filter === 'Complete') return task.completed;
     if (filter === 'Incomplete') return !task.completed;
-    return true; // Show all tasks
+    return true; 
   });
 
   const handleAddTask = () => {
-    navigate('/add'); // Navigate to AddTask page
+    navigate('/add'); 
   };
 
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
-    setShowFilterOptions(false); // Close filter options after selection
+    setShowFilterOptions(false); 
   };
 
   return (
