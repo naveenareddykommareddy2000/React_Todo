@@ -36,15 +36,18 @@
     background-color: red;
   }
   
-  button.remove {
-    background-color: rgb(223, 130, 223);
-  }
-
-  button.edit {
-    background-color: blue; 
-    color: white; 
-  }
-  button.update {
-    background-color: #007bff; 
+ .remove {
+    background-color: red;
     color: white;
   }
+
+  .edit {
+    background-color: rgb(95, 95, 243); 
+    color: white; 
+  }
+ .update {
+    background-color: #626a74; 
+    color: white;
+  }
+
+ 
