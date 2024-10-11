@@ -6,7 +6,7 @@ const TodoItem = ({ task, deleteTask, updateTaskStatus }) => {
   const navigate = useNavigate();
 
   const editTask = () => {
-    navigate('/add', { state: task }); 
+    navigate(`/edit?id=${task.id}`); 
   };
 
   return (
@@ -16,9 +16,14 @@ const TodoItem = ({ task, deleteTask, updateTaskStatus }) => {
       <td>{task.dueDate}</td>
       <td>{task.completed ? 'Complete' : 'Incomplete'}</td>
       <td>
-        <button className='update' onClick={() => updateTaskStatus(task.id)}>
-          {task.completed ? 'Mark Incomplete' : 'Mark Complete'}
-        </button>
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={task.completed}
+            onChange={() => updateTaskStatus(task.id)}
+          />
+          <span className="slider round"></span>
+        </label>
         <button className='edit' onClick={editTask}>Edit</button>
         <button className='remove' onClick={() => deleteTask(task.id)}>Delete</button>
       </td>

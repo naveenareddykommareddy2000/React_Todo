@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TodoItem from './TodoItem';
-import { FaCaretDown } from 'react-icons/fa'; 
 import './TodoList.css';
-
 
 const TodoList = () => {
   const [tasks, setTasks] = useState([]);
-  const [filter, setFilter] = useState('All');
-  const [showFilterOptions, setShowFilterOptions] = useState(false);
+  const [filter, setFilter] = useState('All'); 
+  const [showFilter, setShowFilter] = useState(false); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,43 +35,42 @@ const TodoList = () => {
   });
 
   const handleAddTask = () => {
-    navigate('/add'); 
+    navigate('/add');
   };
 
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
-    setShowFilterOptions(false); 
+    setShowFilter(false); 
   };
 
   return (
     <div>
-      <h1>TODO LIST APP</h1>
-      <button className='add-task-btn' onClick={handleAddTask}>Add Task</button> 
-      <table>
+      <h1 className="center-heading">TODO LIST APP</h1>
+      <button className='add-task-btn' onClick={handleAddTask}>Add Task</button>
+      
+      <table className="todo-table">
         <thead>
           <tr>
             <th>Task Name</th>
             <th>Priority</th>
             <th>Due Date</th>
-            <th style={{ cursor: 'pointer' }} onClick={() => setShowFilterOptions(!showFilterOptions)}>
-              Status <FaCaretDown /> 
+            <th>
+              <div className="filter-wrapper">
+                Status
+                <button className="filter-button" onClick={() => setShowFilter(!showFilter)}>
+                  &#9660; 
+                </button>
+                {showFilter && (
+                  <div className="filter-dropdown">
+                    <div onClick={() => handleFilterChange('All')}>All</div>
+                    <div onClick={() => handleFilterChange('Complete')}>Complete</div>
+                    <div onClick={() => handleFilterChange('Incomplete')}>Incomplete</div>
+                  </div>
+                )}
+              </div>
             </th>
             <th>Actions</th>
           </tr>
-         
-          {showFilterOptions && (
-            <tr>
-              <td colSpan="5" style={{ padding: '5px', position: 'absolute', background: 'white', zIndex: 10 }}>
-                <div className="filter-dropdown">
-                  <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
-                    <li onClick={() => handleFilterChange('All')}>All</li>
-                    <li onClick={() => handleFilterChange('Complete')}>Complete</li>
-                    <li onClick={() => handleFilterChange('Incomplete')}>Incomplete</li>
-                  </ul>
-                </div>
-              </td>
-            </tr>
-          )}
         </thead>
         <tbody>
           {filteredTasks.map(task => (

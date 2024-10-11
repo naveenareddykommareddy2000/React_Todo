@@ -1,39 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import './AddTask.css';
 
 const AddTask = () => {
-  const [taskName, setTaskName] = useState('');
-  const [priority, setPriority] = useState('Low');
-  const [dueDate, setDueDate] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    priority: 'Low',
+    dueDate: '',
+  });
+  
   const navigate = useNavigate();
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const taskId = searchParams.get('id');
 
   useEffect(() => {
-    if (location.state) {
-      const { name, priority, dueDate } = location.state;
-      setTaskName(name);
-      setPriority(priority);
-      setDueDate(dueDate);
+    if (taskId) {
+      const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+      const taskToEdit = storedTasks.find(task => task.id === parseInt(taskId));
+      if (taskToEdit) {
+        setFormData({
+          name: taskToEdit.name,
+          priority: taskToEdit.priority,
+          dueDate: taskToEdit.dueDate,
+        });
+      }
     }
-  }, [location.state]);
+  }, [taskId]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
     const newTask = {
-      id: location.state ? location.state.id : Date.now(), 
-      name: taskName,
-      priority,
+      id: taskId ? parseInt(taskId) : Date.now(),
+      name: formData.name,
+      priority: formData.priority,
       completed: false,
-      dueDate,
+      dueDate: formData.dueDate,
     };
 
-    const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    
-    if (location.state) {
-      const updatedTasks = storedTasks.map(task => 
-        task.id === location.state.id ? newTask : task
+    if (taskId) {
+      const updatedTasks = storedTasks.map(task =>
+        task.id === parseInt(taskId) ? newTask : task
       );
       localStorage.setItem('tasks', JSON.stringify(updatedTasks));
     } else {
@@ -48,40 +55,43 @@ const AddTask = () => {
   };
 
   return (
-   <div>
-    <h1>TODO FORM</h1>
-    <div className="container"> 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Task Name:</label>
-          <input 
-            type="text" 
-            value={taskName} 
-            onChange={(e) => setTaskName(e.target.value)} 
-            required 
-          />
-        </div>
-        <div>
-          <label>Priority:</label>
-          <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-          </select>
-        </div>
-        <div>
-          <label>Due Date:</label>
-          <input 
-            type="date" 
-            value={dueDate} 
-            onChange={(e) => setDueDate(e.target.value)} 
-            required 
-          />
-        </div>
-        <button type="submit">{location.state ? 'Update Task' : 'Add Task'}</button>
-        <button type="button" className="back-btn" onClick={handleBack}>Back</button>
-      </form>
-    </div>
+    <div>
+      <h1>TODO FORM</h1>
+      <div className="container"> 
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Task Name:</label>
+            <input 
+              type="text" 
+              value={formData.name} 
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })} 
+              required 
+            />
+          </div>
+          <div>
+            <label>Priority:</label>
+            <select 
+              value={formData.priority} 
+              onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
+            >
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
+          </div>
+          <div>
+            <label>Due Date:</label>
+            <input 
+              type="date" 
+              value={formData.dueDate} 
+              onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })} 
+              required 
+            />
+          </div>
+          <button className="edit-btn" type="submit">{taskId ? 'Update Task' : 'Add Task'}</button>
+          <button type="button" className="back-btn" onClick={handleBack}>Back</button>
+        </form>
+      </div>
     </div>
   );
 };
